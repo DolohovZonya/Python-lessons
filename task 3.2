@@ -1,0 +1,19 @@
+import random as rd
+def number(a, b):   
+  return(rd.randint(a,b))
+N = number(1, 121)
+
+max_val = 0
+max_seq = ''
+
+for i in range(N):
+    l = rd.randint(1, 120)
+    seq =''.join([rd.choice('ATGC') for _ in range(l)])
+    print(f'> Sequence {i +1}')
+    if l > 60:
+        print(seq[:60])
+        print(seq[60:])
+    else:
+        print(seq)
+    if l >= max_val:
+        max_val = l
