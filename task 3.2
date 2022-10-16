@@ -5,7 +5,8 @@ N = number(1, 121)
 
 max_val = 0
 max_seq = ''
-
+min_val = 120
+in_count = 0
 for i in range(N):
     l = rd.randint(1, 120)
     seq =''.join([rd.choice('ATGC') for _ in range(l)])
@@ -17,3 +18,10 @@ for i in range(N):
         print(seq)
     if l >= max_val:
         max_val = l
+    if l <= min_val:
+        min_val = l
+    count = seq.count('G') + seq.count('C')
+    if count > in_count:
+      in_count = count
+      num = i+1
+print("longest:", max_val, "shortest:", min_val, "biggest gc value:", num)
