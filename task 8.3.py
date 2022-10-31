@@ -26,8 +26,16 @@ def NW(x, y, g):
   j = lx 
   alig1 = []
   alig2 = []
-  while (i != 0) or (j != 0):
-    diag = matrix[j-1][i-1] + compare(x[j-1], y[i-1])
+  while (i != 0) and (j != 0):
+    if matrix[i][j] == (matrix[i-1][j] + g) and (i != 0):
+      i = i-1
+      alig1.append('-')
+      alig2.append(y[i])
+    elif matrix[i][j] == (matrix[i][j-1] + g) and (j != 0):
+      j = j-1
+      alig2.append('-')
+      alig1.append(x[j])  
+    diag = matrix[i-1][j-1] + compare(x[j-1], y[i-1])
     up = matrix[i-1][j] + g
     left = matrix[i][j-1] + g
     if matrix[i][j] == diag:
@@ -35,7 +43,7 @@ def NW(x, y, g):
       j = j-1
       alig1.append(x[j])
       alig2.append(y[i])
-    if matrix[i][j] == up:
+    elif matrix[i][j] == up:
       i = i-1
       alig1.append('-')
       alig2.append(y[i])
@@ -49,11 +57,11 @@ def NW(x, y, g):
     alig2.append(y[i])
   while j != 0:
     j = j-1
-    alig1.append(x[j])
+    alig1.append(x[i])
     alig2.append('-')
   return matrix[-1][-1], ''.join(alig1[::-1]), ''.join(alig2[::-1])
   aligments = pairwise2.align.globalms(x, y, 1, -1, -1, -1)
-s1 = 'ATGC'
-s2 = 'TTG'
+s1 = 'ATGCAGCCTCGCGC'
+s2 = 'ATGCCCGTAGAGCCG'
 gap = -1
 print(NW(s1, s2, gap))
