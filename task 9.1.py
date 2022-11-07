@@ -51,3 +51,5 @@ complex2 = ComplexNumber(3, 4)
 sum_complex = complex1 + complex2
 print(complex1 * complex2)
 sum_complex.save_number('sum.txt')
+loaded_sum_complex = ComplexNumber.load_number('sum.txt')
+print(loaded_sum_complex)
