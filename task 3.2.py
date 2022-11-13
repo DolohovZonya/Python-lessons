@@ -1,14 +1,15 @@
 import random as rd
 def number(a, b):   
   return(rd.randint(a,b))
-N = number(1, 121)
+N = number(1, 12)
 
 max_val = 0
 max_seq = ''
-min_val = 120
+min_val = 12
 in_count = 0
+num_s = ''
 for i in range(N):
-    l = rd.randint(1, 120)
+    l = rd.randint(1, 12)
     seq =''.join([rd.choice('ATGC') for _ in range(l)])
     print(f'> Sequence {i +1}')
     if l > 60:
@@ -20,8 +21,13 @@ for i in range(N):
         max_val = l
     if l <= min_val:
         min_val = l
-    count = seq.count('G') + seq.count('C')
+    if l == max_val:
+      max_seq = seq
+    if l == min_val:
+      min_seq = seq
+    count = (seq.count('G') + seq.count('C')) / l
     if count > in_count:
       in_count = count
       num = i+1
-print("longest:", max_val, "shortest:", min_val, "biggest gc value:", num)
+      num_s = seq
+print("longest:", max_seq, "shortest:", min_seq, "biggest gc value:", num_s)
