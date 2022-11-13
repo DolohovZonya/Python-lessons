@@ -12,7 +12,7 @@ def sqroots(a, b, c):
     else:
         return []
 def islegit(line):
-    root = line.split("\t")
+    root = line.split(" ")
     try:
         a, b, c = [int(i) for i in root]
     except:
@@ -20,17 +20,18 @@ def islegit(line):
     else:
         return [a, b, c]
 #abc = [][]
-with open ("output.txt", "w") as output:
+with open("output.txt", "w") as output:
     
-    with open("1.txt") as file:
-        for line in file:
-            row = islegit(line)
-            if row:
-                try:
-                    out_root = sqroots(*row)
-                    if len(out_root)  == 2:
-                        output.write(f"{out_root[0]}, {out_root[1]}")
-            except:
-                    pass
-            else:
-                print("Incorrect input data")
+    with open("input.4.1.txt", encoding = 'ISO-8859-1') as file1:
+      numbers = file1.readlines()
+      for line in numbers:
+        row = islegit(line)
+        if row:
+          try:
+            out_root = sqroots(*row)
+            if len(out_root)  == 2:
+              output.write(f"{out_root[0]}, {out_root[1]}")
+          except:
+            pass
+        else:
+          print("iid")
