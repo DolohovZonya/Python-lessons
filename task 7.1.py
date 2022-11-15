@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 def histogramm(dna):
   plt.hist(dna)
   plt.show()
