@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 def histogramm(dna):
-  plt.hist(dna)
+  dna1 = list(dna)
+  plt.hist(dna1)
   plt.show()
 def pie(dna):
   dna1 = []
