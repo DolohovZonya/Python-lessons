@@ -1,3 +1,4 @@
+import random as rd
 class person():
   def __init__(self, name, health, speed, attack, defense, agility, critical_chance):
     try:
@@ -21,17 +22,17 @@ class person():
   def evasion(self, other):
     ag1 = self.agility
     ag2 = other.agility
-    if ag1 > 5:
+    if ag1 > rd.randint(0,100):
       self.hp = self.hp - 0
-    if ag2 > 5:
+    if ag2 > rd.randint(0,100):
       other.hp = other.hp - 0
     return person(self.hp, other.hp)
   def critical_chance(self, other):
     cr1 = self.critical_chance
     cr2 = other.critical_chance
-    if cr1 > 5:
+    if cr1 > rd.randint(0,100):
       other.hp = other.hp -2*(self.att - other.defs)
-    if cr2 > 5:
+    if cr2 > rd.randint(0,100):
       self.hp = self.hp - 2*(other.att - self.defs)
     return person(self.hp, other.hp)
   def winner(self, other):
