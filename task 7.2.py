@@ -11,7 +11,7 @@ def maximum(df, columns):
     'AGC': 'V', 'GAC': 'V', 'GCA': 'V', 'CAG': 'V',
     'CGA': 'V', 'AG': 'R', 'CT': 'Y', 'CG': 'S', 'AT': 'W', 
     'GT': 'K', 'AC': 'M', 'CGT': 'B', 'AGT': 'D', 
-    'ACT': 'H', 'ACG': 'V', 'ACGT': 'N', '\n': ''}
+    'ACT': 'H', 'ACG': 'V', 'ACGT': 'N'}
   string = ''
   for i in columns:
     df_dict = dict(df[i].value_counts())
@@ -28,33 +28,34 @@ def maximum(df, columns):
       if keys == k:
         string += codes[k]
   print(string)
+def bar(df, columns):
+  codes = {'A': 0, 'T': 0, 'C': 0, 'G': 0}
+  x = columnss
+  fig, ax = plt.subplots()
+  for i in columns:
+    df_dict = dict(df[i].value_counts())
+    for k, v in df_dict.items():
+      cd = codes.copy()
+      for key in cd.keys():
+        if k == key:
+          cd[key] = v
+      ax.bar(x, cd['A'])
+      ax.bar(x, cd['T'], bottom=cd['A'])
+      ax.bar(x, cd['C'], bottom=cd['T'])
+      ax.bar(x, cd['G'], bottom=cd['C'])
+  fig.show()
 file_name = input()
 dna1 = []
-dna3 = []
 with open(file_name, "r") as buf:
   dna = buf.readlines()
 for i in range(len(dna)):
   dna1.append(list(dna[i]))
-columnss = [int(i) for i in range(len(dna[0]))]
-index = [int(i) for i in range(len(dna))]
+for sp in dna1:
+  for i in range(len(sp)):
+    if sp[i] == '\n':
+      sp.remove('\n')
+columnss = [int(i) for i in range(len(dna1[0]))]
+index = [int(i) for i in range(len(dna1))]
 df = pd.DataFrame(dna1, index, columnss)
 maximum(df, columnss)
-for seq in dna1:
-  dna2 = []
-  num_a = seq.count('A')
-  num_t = seq.count('T')
-  num_g = seq.count('G')
-  num_c = seq.count('C')
-  dna2.append(num_a / len(seq))
-  dna2.append(num_t / len(seq))
-  dna2.append(num_g / len(seq))
-  dna2.append(num_c / len(seq))
-  dna3.append(dna2)
-print(dna3)
-x = np.arange(len(dna3))
-fig, ax = plt.subplots()
-for i in range(len(dna3)):
-  ax.bar(x, dna3[i][0])
-  ax.bar(x, dna3[i][1], bottom=dna3[i][0])
-  ax.bar(x, dna3[i][2], bottom=dna3[i][1])
-  ax.bar(x, dna3[i][3], bottom=dna3[i][2])
+bar(df, columnss)
