@@ -29,21 +29,28 @@ def maximum(df, columns):
         string += codes[k]
   print(string)
 def bar(df, columns):
-  codes = {'A': 0, 'T': 0, 'C': 0, 'G': 0}
-  x = columnss
-  fig, ax = plt.subplots()
-  for i in columns:
-    df_dict = dict(df[i].value_counts())
-    for k, v in df_dict.items():
-      cd = codes.copy()
-      for key in cd.keys():
-        if k == key:
-          cd[key] = v
-      ax.bar(x, cd['A'])
-      ax.bar(x, cd['T'], bottom=cd['A'])
-      ax.bar(x, cd['C'], bottom=cd['T'])
-      ax.bar(x, cd['G'], bottom=cd['C'])
-  fig.show()
+  fin_list = []
+  codes = ['A', 'T',
+           'C', 'G']
+  fin_list = []
+  for j in codes:
+    lst = np.zeros(len(columns))
+    for i in range(len(lst)):
+      lst[i] = df[i].to_string(index=False).count(j)
+    fin_list.append(lst)
+  x = np.arange(len(fin_list[0]))
+  plt.bar(x, fin_list[0], color='blue',
+          label=codes[0])
+  plt.bar(x, fin_list[1], color='green',
+          bottom=fin_list[0], label=codes[1])
+  plt.bar(x, fin_list[2], color='yellow',
+          bottom=(fin_list[1]+fin_list[0]), label=codes[2])
+  plt.bar(x, fin_list[3], color='red',
+          bottom=(fin_list[2]+fin_list[1]+fin_list[0]), label=codes[3])
+  plt.legend()
+  plt.xlabel('position')
+  plt.ylabel('nucleotides num')
+  plt.show()
 file_name = input()
 dna1 = []
 with open(file_name, "r") as buf:
