@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
+
+x = np.arange(4)
+
 def histogramm(dna):
   dna1 = list(dna)
   plt.hist(dna1)
-  plt.show()
 def pie(dna):
   dna1 = []
   num_a = dna.count('A')
@@ -18,12 +21,11 @@ def pie(dna):
   colors = ['red', 'green', 'blue', 'yellow']
   explode = [0, 0, 0, 0]
   plt.pie(dna1, explode=explode, labels=labels, colors=colors, autopct="%.2f%%", shadow=False, startangle=90)
-  plt.show()
 def hist_codons(dna):
   dna1 = []
   for i in range(0, (len(dna) - 2), 3):
     dna1.append(dna[i:i+3])
-  plt.hist(dna1, bins=10)
+  plt.hist(dna1, bins = 10)
 def boxplot(dna):
   dna1 = []
   dna2 = []
@@ -33,19 +35,14 @@ def boxplot(dna):
     dna2.append(dna1.count(i))
   fig = sns.boxplot(data=dna2)
   plt.xticks([0], ["codons"])
-
-file_name = input()
-choose_plot = int(input())
-
-with open(file_name, "r") as buf:
+with open('string_one.txt', "r") as buf:
   dna = buf.read()
-  if choose_plot == 1:
-    histogramm(dna)
-  elif choose_plot == 2:
-    pie(dna)
-  elif choose_plot == 3:
-    hist_codons(dna)
-  elif choose_plot == 4:
-    boxplot(dna)
-  else:
-    print("invalid option")
+
+ax1 = plt.subplot(2,2,1)
+histogramm(dna)
+ax2 = plt.subplot(2,2,2)
+pie(dna)
+ax3 = plt.subplot(2,2,3)
+hist_codons(dna)
+ax4 = plt.subplot(2,2,4)
+boxplot(dna)
