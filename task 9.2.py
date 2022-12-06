@@ -44,6 +44,15 @@ class hero():
           else:
             self.hp -= other.att - self.defs
         self.hero = 2
+      elif self.spd == other.spd:
+        if hero.evasion(self):
+          other.hp += 0
+        else:
+          if hero.critical_chance(self):
+            other.hp = other.hp - 2*(self.att - other.defs)
+          else:
+            other.hp -= self.att - other.defs
+        self.hero = 1
       #print(self.hero)
       while self.i > 1:
         if self.hero == 1:
@@ -72,7 +81,7 @@ class hero():
           print("Winner is " + str(self.name))
           break
 #экземпляры класса - два борющихся друг с другом героя с разными жизненными характеристиками
-pers1 = hero("elf", 100, 3, 5, 6, 54, 8)
-pers2 = hero("dwarf", 100, 99, 99, 29, 68, 99)
+pers1 = hero("elf", 100, 5, 51, 6, 54, 8)
+pers2 = hero("dwarf", 100, 5, 34, 29, 68, 7)
 pers1.damage_deal(pers2)
 pers2.damage_deal(pers1)
