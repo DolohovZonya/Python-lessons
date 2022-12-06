@@ -1,5 +1,8 @@
+from pandas.core.algorithms import SelectNFrame
 import random as rd
-class person():
+
+class hero(): 
+  #инициализация героев и их параметров
   def __init__(self, name, health, speed, attack, defense, agility, critical_chance):
     try:
       self.name = name
@@ -7,45 +10,69 @@ class person():
       self.spd = float(speed)
       self.att = attack
       self.defs = defense
-      self.agility = float(agility)
-      self.critical_chance = critical_chance
+      self.ag = float(agility)
+      self.critical = critical_chance
+      self.i = 100
+      self.hero = 1
     except:
       raise ('compilation error')
+  #уклонение героя (возвращает тру если герой уклонился)
+  def evasion(self):
+    return self.ag > rd.randint(0,100)
+    #return other.ag > rd.randint(0,100)
+  #критический удар (возвращает тру, если герой способен нанести двойной урон противнику)
+  def critical_chance(self):
+    return self.critical > rd.randint(0, 100)
+    #return other.critical > rd.randint(0, 100)
+  #функция нанесения урона (пытаюсь сделать ее с учетом уклонения и с учетом критического удара)
   def damage_deal(self, other):
-    spd1 = self.spd
-    spd2 = other.spd
-    if spd1 > spd2:
-      other.hp = other.hp - (self.att - other.defs)
-    if spd2 > spd1:
-      self.hp = self.hp - (other.att - self.defs)
-    return person(self.hp, other.hp)
-  def evasion(self, other):
-    ag1 = self.agility
-    ag2 = other.agility
-    if ag1 > rd.randint(0,100):
-      self.hp = self.hp - 0
-    if ag2 > rd.randint(0,100):
-      other.hp = other.hp - 0
-    return person(self.hp, other.hp)
-  def critical_chance(self, other):
-    cr1 = self.critical_chance
-    cr2 = other.critical_chance
-    if cr1 > rd.randint(0,100):
-      other.hp = other.hp -2*(self.att - other.defs)
-    if cr2 > rd.randint(0,100):
-      self.hp = self.hp - 2*(other.att - self.defs)
-    return person(self.hp, other.hp)
-  def winner(self, other):
-    if self.hp > other.hp:
-      print(f"Winner: {self.name}")
-    if other.hp > self.hp:
-      print(f"Winner: {other.name}")
-def battle():
-  person1 = person("elf", 1, 3, 2, 3, 4, 3)
-  person2 = person("dwarf", 1, 2, 4, 2, 1, 3)
-  pers = person()
-  for i in range(100):
-    pers.damage_deal()
-    pers.evasion()
-    pers.critical_chance()
-  print(pers.winner)
+      if self.spd > other.spd:
+        if hero.evasion(self):
+          other.hp += 0
+        else:
+          if hero.critical_chance(self):
+            other.hp = other.hp - 2*(self.att - other.defs)
+          else:
+            other.hp -= self.att - other.defs
+        self.hero = 1
+      elif other.spd > self.spd:
+        if hero.evasion(other):
+          self.hp += 0
+        else:
+          if hero.critical_chance(other):
+            self.hp = self.hp - 2*(other.att - self.defs)
+          else:
+            self.hp -= other.att - self.defs
+        self.hero = 2
+      #print(self.hero)
+      while self.i > 1:
+        if self.hero == 1:
+          if hero.evasion(self):
+            other.hp += 0
+          else:
+            if hero.critical_chance(self):
+              other.hp = other.hp - 2*(self.att - other.defs)
+            else:
+              other.hp -= self.att - other.defs
+          self.hero = 2
+        if self.hero == 2:
+          if hero.evasion(other):
+            self.hp += 0
+          else:
+            if hero.critical_chance(other):
+              self.hp = self.hp - 2*(other.att - self.defs)
+            else:
+              self.hp -= other.att - self.defs
+          self.hero = 1
+        self.i -= 1
+        if self.hp < 0:
+          print("Winner is " + str(other.name))
+          break
+        elif other.hp < 0:
+          print("Winner is " + str(self.name))
+          break
+#экземпляры класса - два борющихся друг с другом героя с разными жизненными характеристиками
+pers1 = hero("elf", 100, 3, 5, 6, 54, 8)
+pers2 = hero("dwarf", 100, 99, 99, 29, 68, 99)
+pers1.damage_deal(pers2)
+pers2.damage_deal(pers1)
