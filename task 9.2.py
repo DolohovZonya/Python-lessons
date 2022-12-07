@@ -21,41 +21,17 @@ class hero():
   #уклонение героя (возвращает тру если герой уклонился)
   def evasion(self):
     return self.ag > rd.randint(0,99)
-    #return other.ag > rd.randint(0,100)
   #критический удар (возвращает тру, если герой способен нанести двойной урон противнику)
   def critical_chance(self):
     return self.critical > rd.randint(0, 99)
-    #return other.critical > rd.randint(0, 100)
-  #функция нанесения урона (пытаюсь сделать ее с учетом уклонения и с учетом критического удара)
+  #функция нанесения урона
   def starting_punch(self, other):
       if self.spd > other.spd:
-        if hero.evasion(other):
-          other.hp += 0
-        else:
-          if hero.critical_chance(self):
-            other.hp = other.hp - 2*(self.att - other.defs)
-          else:
-            other.hp -= self.att - other.defs
         self.hero = 1
       elif other.spd > self.spd:
-        if hero.evasion(self):
-          self.hp += 0
-        else:
-          if hero.critical_chance(other):
-            self.hp = self.hp - 2*(other.att - self.defs)
-          else:
-            self.hp -= other.att - self.defs
         self.hero = 2
       elif self.spd == other.spd:
-        if hero.evasion(self):
-          other.hp += 0
-        else:
-          if hero.critical_chance(self):
-            other.hp = other.hp - 2*(self.att - other.defs)
-          else:
-            other.hp -= self.att - other.defs
         self.hero = 1
-      #print(self.hero)
   def damage_deal(self, other):
     while self.hp > 0 and other.hp > 0:
       if self.hero == 1:
