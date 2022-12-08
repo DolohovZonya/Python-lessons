@@ -21,10 +21,12 @@ class hero():
   #уклонение героя (возвращает тру если герой уклонился)
   def evasion(self):
     return self.ag > rd.randint(0,99)
+    #return other.ag > rd.randint(0,100)
   #критический удар (возвращает тру, если герой способен нанести двойной урон противнику)
   def critical_chance(self):
     return self.critical > rd.randint(0, 99)
-  #функция нанесения урона
+    #return other.critical > rd.randint(0, 100)
+  #функция нанесения урона (пытаюсь сделать ее с учетом уклонения и с учетом критического удара)
   def starting_punch(self, other):
       if self.spd > other.spd:
         self.hero = 1
@@ -32,7 +34,10 @@ class hero():
         self.hero = 2
       elif self.spd == other.spd:
         self.hero = 1
+      #print(self.hero)
+      return self.hero
   def damage_deal(self, other):
+    self.hero = hero.starting_punch(self, other)
     while self.hp > 0 and other.hp > 0:
       if self.hero == 1:
         if hero.evasion(other):
@@ -43,7 +48,7 @@ class hero():
           else:
             other.hp -= self.att - other.defs
         self.hero = 2
-      if self.hero == 2 :
+      if self.hero == 2:
         if hero.evasion(self):
           self.hp += 0
         else:
@@ -52,9 +57,10 @@ class hero():
           else:
             self.hp -= other.att - self.defs
         self.hero = 1
-      if self.hp < 0:
+      #print(str(self.hp) + '  ' + str(other.hp))
+      if self.hp <= 0:
         other.ko += 1
-      elif other.hp < 0:
+      elif other.hp <= 0:
         self.ko += 1
     self.hp = self.init_hp
     other.hp = other.init_hp
@@ -67,7 +73,6 @@ class hero():
     elif other.ko > self.ko:
       print("Winner is " + str(other.name))
 #экземпляры класса - два борющихся друг с другом героя с разными жизненными характеристиками
-pers1 = hero("elf", 100, 58, 81, 6, 54, 8)
-pers2 = hero("dwarf", 100, 5, 34, 29, 68, 7)
+pers1 = hero("elf", 10, 1, 2, 1, 50, 50)
+pers2 = hero("dwarf", 10, 1, 2, 1, 50, 50)
 pers1.battle(pers2)
-
