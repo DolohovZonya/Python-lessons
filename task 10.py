@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 
-gene_name = 'hsa:7314'
+gene_name = 'hsa:4514'
 url = f'https://rest.kegg.jp/get/{gene_name}'
 geturl = requests.get(url)
 url1 = f'https://www.kegg.jp/ssdb-bin/ssdb_best?org_gene={gene_name}'
@@ -64,18 +64,19 @@ sw_res = re.findall(sw_score, get_ortho.text)
 for score in sw_res:
   sw_c.append(score.split(" ")[0])
 val_res = re.findall(name, get_ortho.text)
-# print(id_res, val_res, sw_c)
+#print(id_res[:10], val_res[:10], sw_c[:10])
 # подсчет коэфф корреляции пирсона
 id_piers = np.array(list(map(float, id_res[0:100])))
 sw_piers = np.array(list(map(float, sw_c[0:100])))
 r,p = stats.pearsonr(id_piers, sw_piers)
-# print(r)
+#print(r)
 names = []
 for nam in val_res:
   names.append(nam.split('"')[1])
 lmotif = motif.split(" ")
-motifs = {'ubiquitin': 0, 'Rad60-SLD': 0, 'Ubiquitin_2': 0, 'TBK1_ULD': 0, 
-          'Rad60-SLD_2': 0, 'DUF2604': 0, 'Ubiquitin_5': 0, 'Dsc3_N': 0}
+motifs = {}
+for i in lmotif[8:]:
+  motifs[i] = 0
 for genes in names[0:10]:
   url2 = f'https://rest.kegg.jp/get/{genes}'
   geturl2 = requests.get(url)
